@@ -5,8 +5,11 @@
 <url> <loc>https://www.huweihuang.com/docker-notes/basics/docker-architecture.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.huweihuang.com/docker-notes/basics/docker-commands-principle.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.huweihuang.com/docker-notes/basics/dockerfile-usage.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
-<url> <loc>https://www.huweihuang.com/docker-notes/principle/namespace.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
-<url> <loc>https://www.huweihuang.com/docker-notes/principle/cgroup.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.huweihuang.com/docker-notes/principle/namespace/namespace.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.huweihuang.com/docker-notes/principle/namespace/namespace-cmd.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.huweihuang.com/docker-notes/principle/cgroup/cgroup.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.huweihuang.com/docker-notes/principle/cgroup/cgroup-cmd.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.huweihuang.com/docker-notes/principle/cgroup/cgroup-dir.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.huweihuang.com/docker-notes/code-analysis/code-analysis-of-docker-client.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.huweihuang.com/docker-notes/code-analysis/code-analysis-of-docker-daemon.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.huweihuang.com/docker-notes/code-analysis/code-analysis-of-docker-server.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>

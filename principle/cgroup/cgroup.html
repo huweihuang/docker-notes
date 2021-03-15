@@ -1,0 +1,845 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>cgroup介绍 · Docker 学习笔记</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="胡伟煌">
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-image-captions/image-captions.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism-okaidia.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-disqus/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-donate/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="cgroup-cmd.html" />
+    
+    
+
+    
+        <link rel="shortcut icon" href='../../images/favicon.ico' type="image/x-icon">
+    
+    
+        <link rel="bookmark" href='../../images/favicon.ico' type="image/x-icon">
+    
+    
+        <link rel="apple-touch-icon" href='../../images/favicon.ico'>
+    
+    
+        
+        <link rel="apple-touch-icon" sizes="120x120" href="../../images/favicon.ico">
+        
+        <link rel="apple-touch-icon" sizes="180x180" href="../../images/favicon.ico">
+        
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"huweihuang/docker-notes","types":["star"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://www.huweihuang.com" target="_blank" class="custom-link">胡伟煌的博客</a>
+        </li>
+    
+        
+        <li>
+            <a href="https://www.huweihuang.com/kubernetes-notes/" target="_blank" class="custom-link">Kubernetes 学习笔记</a>
+        </li>
+    
+        
+        <li>
+            <a href="https://www.huweihuang.com/golang-notes/" target="_blank" class="custom-link">Golang 学习笔记</a>
+        </li>
+    
+        
+        <li>
+            <a href="https://www.huweihuang.com/linux-notes/" target="_blank" class="custom-link">Linux 学习笔记</a>
+        </li>
+    
+        
+        <li>
+            <a href="https://www.huweihuang.com/data-structure-notes/" target="_blank" class="custom-link">数据结构学习笔记</a>
+        </li>
+    
+        
+        <li>
+            <a href="https://www.huweihuang.com/python-notes/" target="_blank" class="custom-link">Python 学习笔记</a>
+        </li>
+    
+        
+        <li>
+            <a href="https://www.huweihuang.com/blockchain-notes/" target="_blank" class="custom-link">Blockchain 学习笔记</a>
+        </li>
+    
+        
+        <li>
+            <a href="https://www.huweihuang.com/k8s-source-code-analysis/" target="_blank" class="custom-link">Kubernetes 源码分析笔记</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        <li class="header">前言</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    序言
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">安装与配置</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../../install/install-docker.html">
+            
+                <a href="../../install/install-docker.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    安装Docker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">基本概念</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../../basics/docker-architecture.html">
+            
+                <a href="../../basics/docker-architecture.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    Docker架构图
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../../basics/docker-commands-principle.html">
+            
+                <a href="../../basics/docker-commands-principle.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    Docker常用命令原理图
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../../basics/dockerfile-usage.html">
+            
+                <a href="../../basics/dockerfile-usage.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    Dockerfile使用说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">核心原理</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" >
+            
+                <span>
+            
+                    
+                        <b>4.1.</b>
+                    
+                    namespace
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1" data-path="../namespace/namespace.html">
+            
+                <a href="../namespace/namespace.html">
+            
+                    
+                        <b>4.1.1.</b>
+                    
+                    namespace
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="../namespace/namespace-cmd.html">
+            
+                <a href="../namespace/namespace-cmd.html">
+            
+                    
+                        <b>4.1.2.</b>
+                    
+                    namespace命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" >
+            
+                <span>
+            
+                    
+                        <b>4.2.</b>
+                    
+                    cgroup
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="4.2.1" data-path="cgroup.html">
+            
+                <a href="cgroup.html">
+            
+                    
+                        <b>4.2.1.</b>
+                    
+                    cgroup介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.2" data-path="cgroup-cmd.html">
+            
+                <a href="cgroup-cmd.html">
+            
+                    
+                        <b>4.2.2.</b>
+                    
+                    cgroup命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.3" data-path="cgroup-dir.html">
+            
+                <a href="cgroup-dir.html">
+            
+                    
+                        <b>4.2.3.</b>
+                    
+                    cgroup目录
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">源码分析</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../../code-analysis/code-analysis-of-docker-client.html">
+            
+                <a href="../../code-analysis/code-analysis-of-docker-client.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    Docker Client
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../../code-analysis/code-analysis-of-docker-daemon.html">
+            
+                <a href="../../code-analysis/code-analysis-of-docker-daemon.html">
+            
+                    
+                        <b>5.2.</b>
+                    
+                    Docker Daemon
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="../../code-analysis/code-analysis-of-docker-server.html">
+            
+                <a href="../../code-analysis/code-analysis-of-docker-server.html">
+            
+                    
+                        <b>5.3.</b>
+                    
+                    Docker Server
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >cgroup介绍</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div class="search-plus" id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="1-cgroup&#x7B80;&#x4ECB;">1. cgroup&#x7B80;&#x4ECB;</h1>
+<p>Linux Cgroup&#x63D0;&#x4F9B;&#x4E86;&#x5BF9;&#x4E00;&#x7EC4;&#x8FDB;&#x7A0B;&#x53CA;&#x5C06;&#x6765;&#x5B50;&#x8FDB;&#x7A0B;&#x7684;&#x8D44;&#x6E90;&#x9650;&#x5236;&#x7684;&#x80FD;&#x529B;&#x3002;&#x8D44;&#x6E90;&#x5305;&#x62EC;&#xFF1A;CPU&#x3001;&#x5185;&#x5B58;&#x3001;&#x5B58;&#x50A8;&#x3001;&#x7F51;&#x7EDC;&#x7B49;&#x3002;&#x901A;&#x8FC7;Cgroup&#x53EF;&#x4EE5;&#x9650;&#x5236;&#x67D0;&#x4E2A;&#x8FDB;&#x7A0B;&#x7684;&#x8D44;&#x6E90;&#x5360;&#x7528;&#xFF0C;&#x5E76;&#x76D1;&#x63A7;&#x8FDB;&#x7A0B;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002;</p>
+<h1 id="2-cgroup&#x793A;&#x4F8B;">2. cgroup&#x793A;&#x4F8B;</h1>
+<p>1&#x3001;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;hierarchy&#xFF08;cgroup&#x6811;&#xFF09;</p>
+<pre class="language-"><code class="lang-bash"><span class="token comment"># &#x521B;&#x5EFA;&#x4E00;&#x4E2A; hierarchy &#x6302;&#x8F7D;&#x70B9;</span>
+<span class="token function">mkdir</span> cgroup-test 
+<span class="token comment"># &#x6302;&#x8F7D;hierarchy &#x6302;&#x8F7D;&#x70B9;</span>
+<span class="token function">mount</span> -t cgroup -o none,name<span class="token operator">=</span>cgroup-test cgroup-test ./cgroup-test
+<span class="token comment"># &#x67E5;&#x770B;&#x751F;&#x6210;&#x7684;&#x9ED8;&#x8BA4;&#x6587;&#x4EF6;</span>
+<span class="token comment"># ll</span>
+&#x603B;&#x7528;&#x91CF; <span class="token number">0</span>
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">5</span> <span class="token number">19</span>:13 cgroup.clone_children
+--w--w--w- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">5</span> <span class="token number">19</span>:13 cgroup.event_control
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">5</span> <span class="token number">19</span>:13 cgroup.procs
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">5</span> <span class="token number">19</span>:13 cgroup.sane_behavior
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">5</span> <span class="token number">19</span>:13 notify_on_release
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">5</span> <span class="token number">19</span>:13 release_agent
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">5</span> <span class="token number">19</span>:13 tasks
+</code></pre>
+<p>2&#x3001;&#x5728;&#x6839;cgroup&#x521B;&#x5EFA;2&#x4E2A;&#x5B50;cgroup</p>
+<p>&#x5728;cgroup&#x76EE;&#x5F55;&#x4E0B;&#x521B;&#x5EFA;&#x76EE;&#x5F55;&#xFF0C;&#x5B50;cgroup&#x4F1A;&#x7EE7;&#x627F;&#x7236;cgroup&#x7684;&#x5C5E;&#x6027;&#x3002;</p>
+<pre class="language-"><code class="lang-bash"><span class="token function">mkdir</span> cgroup-1
+<span class="token function">mkdir</span> cgroup-2
+
+<span class="token comment"># tree</span>
+<span class="token builtin class-name">.</span>
+&#x251C;&#x2500;&#x2500; cgroup-1
+&#x2502;   &#x251C;&#x2500;&#x2500; cgroup.clone_children
+&#x2502;   &#x251C;&#x2500;&#x2500; cgroup.event_control
+&#x2502;   &#x251C;&#x2500;&#x2500; cgroup.procs
+&#x2502;   &#x251C;&#x2500;&#x2500; notify_on_release
+&#x2502;   &#x2514;&#x2500;&#x2500; tasks
+&#x251C;&#x2500;&#x2500; cgroup-2
+&#x2502;   &#x251C;&#x2500;&#x2500; cgroup.clone_children
+&#x2502;   &#x251C;&#x2500;&#x2500; cgroup.event_control
+&#x2502;   &#x251C;&#x2500;&#x2500; cgroup.procs
+&#x2502;   &#x251C;&#x2500;&#x2500; notify_on_release
+&#x2502;   &#x2514;&#x2500;&#x2500; tasks
+&#x251C;&#x2500;&#x2500; cgroup.clone_children
+&#x251C;&#x2500;&#x2500; cgroup.event_control
+&#x251C;&#x2500;&#x2500; cgroup.procs
+&#x251C;&#x2500;&#x2500; cgroup.sane_behavior
+&#x251C;&#x2500;&#x2500; notify_on_release
+&#x251C;&#x2500;&#x2500; release_agent
+&#x2514;&#x2500;&#x2500; tasks
+</code></pre>
+<p>3&#x3001;&#x5728;cgroup&#x4E2D;&#x6DFB;&#x52A0;&#x548C;&#x79FB;&#x52A8;&#x8FDB;&#x7A0B;&#x3002;</p>
+<pre class="language-"><code class="lang-bash"><span class="token builtin class-name">echo</span> <span class="token variable">$$</span> <span class="token operator">&gt;</span> tasks
+</code></pre>
+<p>4&#x3001;&#x901A;&#x8FC7;subsystem&#x9650;&#x5236;cgroup&#x4E2D;&#x8FDB;&#x7A0B;&#x7684;&#x8D44;&#x6E90;&#x3002;</p>
+<p>&#x7CFB;&#x7EDF;&#x4E3A;&#x6BCF;&#x4E2A;subsystem&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x9ED8;&#x8BA4;&#x7684;hierarchy&#x3002;</p>
+<h1 id="3-cgroup&#x9650;&#x5236;cpu">3. cgroup&#x9650;&#x5236;CPU</h1>
+<p>1&#x3001;&#x542F;&#x52A8;&#x8FDB;&#x7A0B;&#xFF0C;&#x5C06;cpu&#x6253;&#x5230;100%</p>
+<pre class="language-"><code class="lang-bash"><span class="token comment"># &#x542F;&#x52A8;&#x8FDB;&#x7A0B;&#xFF0C;&#x5C06;cpu&#x6253;&#x5230;100%</span>
+stress-ng -c <span class="token number">1</span> --cpu-load <span class="token number">100</span> <span class="token operator">&amp;</span>
+<span class="token comment"># &#x67E5;&#x770B;cpu&#x5360;&#x7528;</span>
+<span class="token comment">#ps auxw|grep stress</span>
+root      <span class="token number">7607</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span>  <span class="token number">56320</span>  <span class="token number">3620</span> pts/1    SL   <span class="token number">10</span>:35   <span class="token number">0</span>:00 stress-ng -c <span class="token number">1</span> --cpu-load <span class="token number">100</span>
+root      <span class="token number">7608</span>  <span class="token number">100</span>  <span class="token number">0.0</span>  <span class="token number">56964</span>  <span class="token number">4076</span> pts/1    R    <span class="token number">10</span>:35   <span class="token number">0</span>:14 stress-ng -c <span class="token number">1</span> --cpu-load <span class="token number">100</span>
+<span class="token comment"># top</span>
+  PID <span class="token environment constant">USER</span>      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+ <span class="token number">7608</span> root      <span class="token number">20</span>   <span class="token number">0</span>   <span class="token number">56964</span>   <span class="token number">4076</span>   <span class="token number">1192</span> R <span class="token number">100.0</span>  <span class="token number">0.0</span>   <span class="token number">0</span>:37.70 stress-ng-cpu
+</code></pre>
+<p>2&#x3001;&#x5728;<code>/sys/fs/cgroup/cpu</code>&#x4E0B;&#x521B;&#x5EFA;&#x5B50;cgroup</p>
+<pre class="language-"><code class="lang-bash"><span class="token comment"># &#x521B;&#x5EFA;&#x5B50;&#x76EE;&#x5F55;</span>
+<span class="token builtin class-name">cd</span> /sys/fs/cgroup/cpu <span class="token operator">&amp;&amp;</span> <span class="token function">mkdir</span> cgroup-test
+<span class="token comment"># &#x751F;&#x6210;cgroup&#x6587;&#x4EF6;</span>
+/sys/fs/cgroup/cpu/cgroup-test<span class="token comment">#ll</span>
+&#x603B;&#x7528;&#x91CF; <span class="token number">0</span>
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cgroup.clone_children
+--w--w--w- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cgroup.event_control
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cgroup.procs
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpuacct.bt_stat
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpuacct.bt_usage
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpuacct.bt_usage_percpu
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpuacct.stat
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpuacct.uptime
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpuacct.usage
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpuacct.usage_percpu
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpu.bt_shares
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:34 cpu.cfs_period_us
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:29 cpu.cfs_quota_us
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpu.cfs_relax_thresh_sec
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpu.offline
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpu.rt_period_us
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpu.rt_runtime_us
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpu.shares
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 cpu.stat
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;   <span class="token number">9</span> <span class="token number">20</span>:28 notify_on_release
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:32 tasks
+</code></pre>
+<p>3&#x3001;&#x9650;&#x5236;&#x8FDB;&#x7A0B;&#x7684;cpu</p>
+<pre class="language-"><code class="lang-bash"><span class="token comment"># &#x9650;&#x5236;cpu&#x6BD4;&#x4F8B;&#x4E3A; cpu.cfs_quota_us/cpu.cfs_period_us,&#x9ED8;&#x8BA4;cpu.cfs_period_us&#x4E3A;100000</span>
+<span class="token builtin class-name">cd</span> /sys/fs/cgroup/cpu/cgroup-test
+<span class="token builtin class-name">echo</span> <span class="token number">50000</span> <span class="token operator">&gt;</span> cpu.cfs_quota_us  <span class="token comment"># &#x9650;&#x5236;cpu&#x4F7F;&#x7528;&#x7387;&#x4E3A;50%</span>
+
+<span class="token comment"># &#x5C06;&#x8FDB;&#x7A0B;&#x53F7;&#x5199;&#x5165;tasks</span>
+<span class="token builtin class-name">echo</span> <span class="token number">7608</span> <span class="token operator">&gt;</span> tasks
+
+<span class="token comment"># &#x67E5;&#x770B;cpu&#x4F7F;&#x7528;&#x7387;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x51FA;cpu&#x9650;&#x5236;&#x5728;50%</span>
+ PID <span class="token environment constant">USER</span>      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+ <span class="token number">7608</span> root      <span class="token number">20</span>   <span class="token number">0</span>   <span class="token number">56964</span>   <span class="token number">4076</span>   <span class="token number">1192</span> R  <span class="token number">50.2</span>  <span class="token number">0.0</span>   <span class="token number">9</span>:08.24 stress-ng-cpu
+</code></pre>
+<h1 id="4-cgroup&#x9650;&#x5236;&#x5185;&#x5B58;">4. cgroup&#x9650;&#x5236;&#x5185;&#x5B58;</h1>
+<p>1&#x3001;&#x8FDB;&#x5165;<code>/sys/fs/cgroup/memory</code>&#x521B;&#x5EFA;&#x5B50;cgroup</p>
+<pre class="language-"><code class="lang-bash"><span class="token builtin class-name">cd</span> /sys/fs/cgroup/memory
+<span class="token function">mkdir</span> cgroup-test
+
+<span class="token comment"># &#x67E5;&#x770B;&#x5B50;cgroup&#x751F;&#x6210;&#x5185;&#x5BB9;</span>
+/sys/fs/cgroup/memory/cgroup-test<span class="token comment">#ll</span>
+&#x603B;&#x7528;&#x91CF; <span class="token number">0</span>
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 cgroup.clone_children
+--w--w--w- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 cgroup.event_control
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 cgroup.procs
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.failcnt
+--w------- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.force_empty
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.kmem.failcnt
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.kmem.limit_in_bytes
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.kmem.max_usage_in_bytes
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.kmem.slabinfo
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.kmem.tcp.failcnt
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.kmem.tcp.limit_in_bytes
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.kmem.tcp.max_usage_in_bytes
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.kmem.tcp.usage_in_bytes
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.kmem.usage_in_bytes
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.limit_in_bytes
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.max_usage_in_bytes
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.meminfo
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.memsw.failcnt
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.memsw.limit_in_bytes
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.memsw.max_usage_in_bytes
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.memsw.usage_in_bytes
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.move_charge_at_immigrate
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.numa_stat
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.oom_control
+---------- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.pressure_level
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.soft_limit_in_bytes
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.stat
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.swappiness
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.usage_in_bytes
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.use_hierarchy
+-r--r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 memory.vmstat
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 notify_on_release
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">0</span> <span class="token number">3</span>&#x6708;  <span class="token number">10</span> <span class="token number">10</span>:51 tasks
+</code></pre>
+<p>2&#x3001;&#x9650;&#x5236;&#x8FDB;&#x7A0B;&#x5185;&#x5B58;&#x4E3A;100M</p>
+<pre class="language-"><code class="lang-bash"><span class="token comment"># &#x8BBE;&#x7F6E;&#x5F53;&#x524D;cgroup&#x9650;&#x5236;&#x8FDB;&#x7A0B;&#x5185;&#x5B58;100M</span>
+<span class="token builtin class-name">cd</span> /sys/fs/cgroup/memory/cgroup-tes
+<span class="token builtin class-name">echo</span> 100m <span class="token operator">&gt;</span> memory.limit_in_bytes
+<span class="token comment"># &#x67E5;&#x770B;&#x6587;&#x4EF6;&#x5185;&#x5BB9;</span>
+/sys/fs/cgroup/memory/cgroup-test<span class="token comment">#cat memory.limit_in_bytes</span>
+<span class="token number">104857600</span>
+</code></pre>
+<p>3&#x3001;&#x542F;&#x52A8;&#x6D4B;&#x8BD5;&#x8FDB;&#x7A0B;</p>
+<pre class="language-"><code class="lang-bash"><span class="token comment"># &#x628A;&#x5F53;&#x524D;&#x7684;bash&#x8FDB;&#x7A0B;&#x52A0;&#x5165;tasks</span>
+<span class="token builtin class-name">echo</span> <span class="token variable">$$</span> <span class="token operator">&gt;</span> tasks
+<span class="token comment">#cat tasks</span>
+<span class="token number">7125</span>
+<span class="token number">11980</span>
+
+<span class="token comment"># ps auxw|grep 7125</span>
+root      <span class="token number">7125</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span> <span class="token number">115116</span>  <span class="token number">2588</span> pts/1    Ss   <span class="token number">10</span>:35   <span class="token number">0</span>:00 -bash
+
+<span class="token comment"># &#x542F;&#x52A8;50M&#x7684;&#x8FDB;&#x7A0B;</span>
+<span class="token builtin class-name">cd</span> /sys/fs/cgroup/memory/cgroup-test
+stress-ng --vm-bytes 50m --vm-keep -m <span class="token number">1</span> <span class="token operator">&amp;</span>
+
+<span class="token comment"># &#x8FDB;&#x7A0B;&#x5185;&#x5B58;&#x5360;&#x7528;&#x4E3A;50M&#xFF0C;&#x53EF;&#x6B63;&#x5E38;&#x8FD0;&#x884C;</span>
+<span class="token function">ps</span> auxw<span class="token operator">|</span><span class="token function">grep</span> stress
+root     <span class="token number">20021</span>  <span class="token number">100</span>  <span class="token number">0.0</span> <span class="token number">113932</span> <span class="token number">58188</span> pts/1    R    <span class="token number">10</span>:58   <span class="token number">2</span>:13 stress-ng --vm-bytes 50m --vm-keep -m <span class="token number">1</span>
+
+<span class="token comment"># &#x6539;&#x7528;&#x542F;&#x52A8;200M&#x7684;&#x6D4B;&#x8BD5;&#x8FDB;&#x7A0B;</span>
+stress-ng --vm-bytes 200m --vm-keep -m <span class="token number">1</span>
+<span class="token comment"># ps auxw|grep stress</span>
+root     <span class="token number">29937</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span>  <span class="token number">56320</span>  <span class="token number">3644</span> pts/1    SL   <span class="token number">11</span>:16   <span class="token number">0</span>:00 stress-ng --vm-bytes 200m --vm-keep -m <span class="token number">1</span>
+root     <span class="token number">29938</span>  <span class="token number">0.1</span>  <span class="token number">0.0</span>  <span class="token number">56324</span>   <span class="token number">976</span> pts/1    S    <span class="token number">11</span>:16   <span class="token number">0</span>:00 stress-ng --vm-bytes 200m --vm-keep -m <span class="token number">1</span>
+<span class="token comment"># cat tasks</span>
+<span class="token number">7125</span>
+<span class="token number">29937</span>
+<span class="token number">29938</span>
+<span class="token number">32247</span>
+<span class="token number">32248</span>
+</code></pre>
+<p>4&#x3001;&#x8FDB;&#x7A0B;OOM</p>
+<pre class="language-"><code class="lang-bash">tailf /var/log/messages
+<span class="token comment"># OOM&#x65E5;&#x5FD7;</span>
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: stress-ng-vm invoked oom-killer: <span class="token assign-left variable">gfp_mask</span><span class="token operator">=</span>0xd0, <span class="token assign-left variable">order</span><span class="token operator">=</span><span class="token number">0</span>, <span class="token assign-left variable">oom_score_adj</span><span class="token operator">=</span><span class="token number">1000</span>
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: stress-ng-vm <span class="token assign-left variable">cpuset</span><span class="token operator">=</span>/ <span class="token assign-left variable">mems_allowed</span><span class="token operator">=</span><span class="token number">0</span>
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: CPU: <span class="token number">11</span> PID: <span class="token number">3691</span> Comm: stress-ng-vm Not tainted <span class="token number">3.10</span>.107-1-tlinux2-0051 <span class="token comment">#1</span>
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: Hardware name: Inspur SA5212M4/Shuyu, BIOS <span class="token number">4.1</span>.13 01/24/2018
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: ffff880f5d92cd70 0000000094b48ef1 ffff880f2cee3c90 ffffffff819d9165
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: ffff880f2cee3cd0 ffffffff819d4957 000000002d514000 ffff880f5d92cd70
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: 0000000000000786 00000000000000d0 ffffffff81d73d78 0000000000006400
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: Call Trace:
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff819d916<span class="token operator"><span class="token file-descriptor important">5</span>&gt;</span><span class="token punctuation">]</span> dump_stack+0x19/0x1b
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff819d495<span class="token operator"><span class="token file-descriptor important">7</span>&gt;</span><span class="token punctuation">]</span> dump_header+0x79/0xb5
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff81120aee<span class="token operator">&gt;</span><span class="token punctuation">]</span> oom_kill_process+0x24e/0x3a0
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff8117b2f<span class="token operator"><span class="token file-descriptor important">9</span>&gt;</span><span class="token punctuation">]</span> mem_cgroup_oom_synchronize+0x4e9/0x510
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff8117a33<span class="token operator"><span class="token file-descriptor important">0</span>&gt;</span><span class="token punctuation">]</span> ? mem_cgroup_charge_common+0xc0/0xc0
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff8112176<span class="token operator"><span class="token file-descriptor important">4</span>&gt;</span><span class="token punctuation">]</span> pagefault_out_of_memory+0x14/0x90
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff819d32dd<span class="token operator">&gt;</span><span class="token punctuation">]</span> mm_fault_error+0x67/0x140
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff819e7ae<span class="token operator"><span class="token file-descriptor important">6</span>&gt;</span><span class="token punctuation">]</span> __do_page_fault+0x396/0x550
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff8108335f<span class="token operator">&gt;</span><span class="token punctuation">]</span> ? set_next_entity+0x5f/0x80
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff81084e6<span class="token operator"><span class="token file-descriptor important">3</span>&gt;</span><span class="token punctuation">]</span> ? pick_next_task_fair+0x1c3/0x2d0
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff819e7cae<span class="token operator">&gt;</span><span class="token punctuation">]</span> do_page_fault+0xe/0x10
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token operator">&lt;</span>ffffffff819e442<span class="token operator"><span class="token file-descriptor important">2</span>&gt;</span><span class="token punctuation">]</span> page_fault+0x22/0x30
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: Task <span class="token keyword">in</span> /cgroup-test killed as a result of limit of /cgroup-test
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: memory: usage 102400kB, limit 102400kB, failcnt <span class="token number">252574</span>
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: memory+swap: usage 102400kB, limit 18014398509481983kB, failcnt <span class="token number">0</span>
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: kmem: usage 0kB, limit 18014398509481983kB, failcnt <span class="token number">0</span>
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: Memory cgroup stats <span class="token keyword">for</span> /cgroup-test: cache:101728KB rss:672KB rss_huge:0KB mapped_file:101728KB swap:0KB inactive_anon:101712KB active_anon:600KB inactive_file:0KB active_file:0KB unevictable:16KB
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span> pid <span class="token punctuation">]</span>   uid  tgid total_vm      rss nr_ptes swapents oom_score_adj name
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span> <span class="token number">7125</span><span class="token punctuation">]</span>     <span class="token number">0</span>  <span class="token number">7125</span>    <span class="token number">28779</span>      <span class="token number">650</span>      <span class="token number">15</span>        <span class="token number">0</span>             <span class="token number">0</span> <span class="token function">bash</span>
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token number">29937</span><span class="token punctuation">]</span>     <span class="token number">0</span> <span class="token number">29937</span>    <span class="token number">14080</span>      <span class="token number">911</span>      <span class="token number">23</span>        <span class="token number">0</span>         -1000 stress-ng
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span><span class="token number">29938</span><span class="token punctuation">]</span>     <span class="token number">0</span> <span class="token number">29938</span>    <span class="token number">14081</span>      <span class="token number">244</span>      <span class="token number">23</span>        <span class="token number">0</span>         -1000 stress-ng-vm
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: <span class="token punctuation">[</span> <span class="token number">3691</span><span class="token punctuation">]</span>     <span class="token number">0</span>  <span class="token number">3691</span>    <span class="token number">65281</span>    <span class="token number">24993</span>      <span class="token number">73</span>        <span class="token number">0</span>          <span class="token number">1000</span> stress-ng-vm
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: Memory cgroup out of memory: Kill process <span class="token number">3691</span> <span class="token punctuation">(</span>stress-ng-vm<span class="token punctuation">)</span> score <span class="token number">1926</span> or sacrifice child
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  kernel: Killed process <span class="token number">3691</span> <span class="token punctuation">(</span>stress-ng-vm<span class="token punctuation">)</span> total-vm:261124kB, anon-rss:292kB, file-rss:99680kB
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  cadvisor: I0310 <span class="token number">11</span>:19:17.952314    <span class="token number">3143</span> manager.go:1178<span class="token punctuation">]</span> Created an OOM event <span class="token keyword">in</span> container <span class="token string">&quot;/cgroup-test&quot;</span> at <span class="token number">2021</span>-03-10 <span class="token number">11</span>:21:19.308776449 +0800 CST <span class="token assign-left variable">m</span><span class="token operator">=</span>+150332.715342256
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:17  stress-ng: memory <span class="token punctuation">(</span>MB<span class="token punctuation">)</span>: total <span class="token number">63979.26</span>, <span class="token function">free</span> <span class="token number">58262.03</span>, shared <span class="token number">0.00</span>, buffer <span class="token number">481.01</span>, swap <span class="token number">0.00</span>, <span class="token function">free</span> swap <span class="token number">0.00</span>
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:18  kernel: Memory cgroup out of memory: Kill process <span class="token number">3692</span> <span class="token punctuation">(</span>stress-ng-vm<span class="token punctuation">)</span> score <span class="token number">1926</span> or sacrifice child
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:18  kernel: Killed process <span class="token number">3692</span> <span class="token punctuation">(</span>stress-ng-vm<span class="token punctuation">)</span> total-vm:261124kB, anon-rss:292kB, file-rss:99680kB
+Mar <span class="token number">10</span> <span class="token number">11</span>:19:18  stress-ng: memory <span class="token punctuation">(</span>MB<span class="token punctuation">)</span>: total <span class="token number">63979.26</span>, <span class="token function">free</span> <span class="token number">58262.15</span>, shared <span class="token number">0.00</span>, buffer <span class="token number">481.01</span>, swap <span class="token number">0.00</span>, <span class="token function">free</span> swap <span class="token number">0.00</span>
+</code></pre>
+<p>&#x53C2;&#x8003;&#xFF1A;</p>
+<ul>
+<li><a href="https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt" target="_blank">https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt</a> </li>
+</ul>
+<footer class="page-footer"><span class="copyright">Copyright &#xA9; www.huweihuang.com 2017-2018 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">Updated at 
+2021-03-10 12:46:30
+</span></footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+                <a href="cgroup-cmd.html" class="navigation navigation-next navigation-unique" aria-label="Next page: cgroup命令">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"cgroup介绍","level":"4.2.1","depth":2,"next":{"title":"cgroup命令","level":"4.2.2","depth":2,"path":"principle/cgroup/cgroup-cmd.md","ref":"principle/cgroup/cgroup-cmd.md","articles":[]},"previous":{"title":"cgroup","level":"4.2","depth":1,"ref":"","articles":[{"title":"cgroup介绍","level":"4.2.1","depth":2,"path":"principle/cgroup/cgroup.md","ref":"principle/cgroup/cgroup.md","articles":[]},{"title":"cgroup命令","level":"4.2.2","depth":2,"path":"principle/cgroup/cgroup-cmd.md","ref":"principle/cgroup/cgroup-cmd.md","articles":[]},{"title":"cgroup目录","level":"4.2.3","depth":2,"path":"principle/cgroup/cgroup-dir.md","ref":"principle/cgroup/cgroup-dir.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["github","codesnippet","splitter","page-toc-button","image-captions","editlink","back-to-top-button","-lunr","-search","search-plus","github-buttons@2.1.0","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba","theme-default","-highlight","prism","prism-themes","sitemap-general","ga","disqus","donate"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © www.huweihuang.com 2017-2018","modify_label":"Updated at ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prismjs/themes/prism-okaidia.css"]},"disqus":{"useIdentifier":false,"shortName":"huweihuang"},"github":{"url":"https://github.com/huweihuang"},"editlink":{"label":"编辑本页","multilingual":false,"base":"https://github.com/huweihuang/docker-notes/blob/master/"},"splitter":{},"donate":{"alipay":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1551599640/blog/donate/alipay.jpg","alipayText":"支付宝打赏","button":"赏","title":"","wechat":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1551599472/blog/donate/wechatpay.jpg","wechatText":"微信打赏"},"codesnippet":{},"sitemap-general":{"prefix":"https://www.huweihuang.com/docker-notes/"},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"images/favicon.ico","bookmark":"images/favicon.ico","appleTouch":"images/favicon.ico","appleTouchMore":{"120x120":"images/favicon.ico","180x180":"images/favicon.ico"}},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"huweihuang/docker-notes","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"e146d71b77957235bba1e709d930f62e"},"ga":{"configuration":"auto","token":"UA-114718458-2"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{},"image-captions":{"caption":"图片 - _CAPTION_","variable_name":"_pictures"}},"theme":"default","author":"胡伟煌","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[{"backlink":"basics/docker-commands-principle.html#fig3.2.1","level":"3.2","list_caption":"Figure: 1","alt":"1","nro":1,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578327/article/docker/commands/1.png","index":1,"caption_template":"图片 - _CAPTION_","label":"1","attributes":{},"skip":false,"key":"3.2.1"},{"backlink":"basics/docker-commands-principle.html#fig3.2.2","level":"3.2","list_caption":"Figure: 2.1","alt":"2.1","nro":2,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578328/article/docker/commands/2.1.png","index":2,"caption_template":"图片 - _CAPTION_","label":"2.1","attributes":{},"skip":false,"key":"3.2.2"},{"backlink":"basics/docker-commands-principle.html#fig3.2.3","level":"3.2","list_caption":"Figure: 3.2","alt":"3.2","nro":3,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578328/article/docker/commands/3.2.png","index":3,"caption_template":"图片 - _CAPTION_","label":"3.2","attributes":{},"skip":false,"key":"3.2.3"},{"backlink":"basics/docker-commands-principle.html#fig3.2.4","level":"3.2","list_caption":"Figure: 4.1.1","alt":"4.1.1","nro":4,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578329/article/docker/commands/4.1.1.png","index":4,"caption_template":"图片 - _CAPTION_","label":"4.1.1","attributes":{},"skip":false,"key":"3.2.4"},{"backlink":"basics/docker-commands-principle.html#fig3.2.5","level":"3.2","list_caption":"Figure: 4.1.2","alt":"4.1.2","nro":5,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578329/article/docker/commands/4.1.2.png","index":5,"caption_template":"图片 - _CAPTION_","label":"4.1.2","attributes":{},"skip":false,"key":"3.2.5"},{"backlink":"basics/docker-commands-principle.html#fig3.2.6","level":"3.2","list_caption":"Figure: 4.1.3","alt":"4.1.3","nro":6,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578330/article/docker/commands/4.1.3.png","index":6,"caption_template":"图片 - _CAPTION_","label":"4.1.3","attributes":{},"skip":false,"key":"3.2.6"},{"backlink":"basics/docker-commands-principle.html#fig3.2.7","level":"3.2","list_caption":"Figure: 4.2.1.1","alt":"4.2.1.1","nro":7,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578330/article/docker/commands/4.2.1.1.png","index":7,"caption_template":"图片 - _CAPTION_","label":"4.2.1.1","attributes":{},"skip":false,"key":"3.2.7"},{"backlink":"basics/docker-commands-principle.html#fig3.2.8","level":"3.2","list_caption":"Figure: 4.2.1.2","alt":"4.2.1.2","nro":8,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578330/article/docker/commands/4.2.1.2.png","index":8,"caption_template":"图片 - _CAPTION_","label":"4.2.1.2","attributes":{},"skip":false,"key":"3.2.8"},{"backlink":"basics/docker-commands-principle.html#fig3.2.9","level":"3.2","list_caption":"Figure: 4.2.1.3","alt":"4.2.1.3","nro":9,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578330/article/docker/commands/4.2.1.3.png","index":9,"caption_template":"图片 - _CAPTION_","label":"4.2.1.3","attributes":{},"skip":false,"key":"3.2.9"},{"backlink":"basics/docker-commands-principle.html#fig3.2.10","level":"3.2","list_caption":"Figure: 4.2.1.3.1","alt":"4.2.1.3.1","nro":10,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578329/article/docker/commands/4.2.1.3.1.png","index":10,"caption_template":"图片 - _CAPTION_","label":"4.2.1.3.1","attributes":{},"skip":false,"key":"3.2.10"},{"backlink":"basics/docker-commands-principle.html#fig3.2.11","level":"3.2","list_caption":"Figure: 4.2.1.4","alt":"4.2.1.4","nro":11,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578330/article/docker/commands/4.2.1.4.png","index":11,"caption_template":"图片 - _CAPTION_","label":"4.2.1.4","attributes":{},"skip":false,"key":"3.2.11"},{"backlink":"basics/docker-commands-principle.html#fig3.2.12","level":"3.2","list_caption":"Figure: 4.2.1.5","alt":"4.2.1.5","nro":12,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578331/article/docker/commands/4.2.1.5.png","index":12,"caption_template":"图片 - _CAPTION_","label":"4.2.1.5","attributes":{},"skip":false,"key":"3.2.12"},{"backlink":"basics/docker-commands-principle.html#fig3.2.13","level":"3.2","list_caption":"Figure: 4.2.1.6","alt":"4.2.1.6","nro":13,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578330/article/docker/commands/4.2.1.6.png","index":13,"caption_template":"图片 - _CAPTION_","label":"4.2.1.6","attributes":{},"skip":false,"key":"3.2.13"},{"backlink":"basics/docker-commands-principle.html#fig3.2.14","level":"3.2","list_caption":"Figure: 4.2.1.7","alt":"4.2.1.7","nro":14,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578331/article/docker/commands/4.2.1.7.png","index":14,"caption_template":"图片 - _CAPTION_","label":"4.2.1.7","attributes":{},"skip":false,"key":"3.2.14"},{"backlink":"basics/docker-commands-principle.html#fig3.2.15","level":"3.2","list_caption":"Figure: 4.2.1.7.2","alt":"4.2.1.7.2","nro":15,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578331/article/docker/commands/4.2.1.7.2.png","index":15,"caption_template":"图片 - _CAPTION_","label":"4.2.1.7.2","attributes":{},"skip":false,"key":"3.2.15"},{"backlink":"basics/docker-commands-principle.html#fig3.2.16","level":"3.2","list_caption":"Figure: 4.2.1.8.1","alt":"4.2.1.8.1","nro":16,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578331/article/docker/commands/4.2.1.8.1.png","index":16,"caption_template":"图片 - _CAPTION_","label":"4.2.1.8.1","attributes":{},"skip":false,"key":"3.2.16"},{"backlink":"basics/docker-commands-principle.html#fig3.2.17","level":"3.2","list_caption":"Figure: 4.2.1.8.2","alt":"4.2.1.8.2","nro":17,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578331/article/docker/commands/4.2.1.8.2.png","index":17,"caption_template":"图片 - _CAPTION_","label":"4.2.1.8.2","attributes":{},"skip":false,"key":"3.2.17"},{"backlink":"basics/docker-commands-principle.html#fig3.2.18","level":"3.2","list_caption":"Figure: 4.2.2.1.1","alt":"4.2.2.1.1","nro":18,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578331/article/docker/commands/4.2.2.1.1.png","index":18,"caption_template":"图片 - _CAPTION_","label":"4.2.2.1.1","attributes":{},"skip":false,"key":"3.2.18"},{"backlink":"basics/docker-commands-principle.html#fig3.2.19","level":"3.2","list_caption":"Figure: 4.2.2.1.2","alt":"4.2.2.1.2","nro":19,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578332/article/docker/commands/4.2.2.1.2.png","index":19,"caption_template":"图片 - _CAPTION_","label":"4.2.2.1.2","attributes":{},"skip":false,"key":"3.2.19"},{"backlink":"basics/docker-commands-principle.html#fig3.2.20","level":"3.2","list_caption":"Figure: 4.2.2.1.3","alt":"4.2.2.1.3","nro":20,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578331/article/docker/commands/4.2.2.1.3.png","index":20,"caption_template":"图片 - _CAPTION_","label":"4.2.2.1.3","attributes":{},"skip":false,"key":"3.2.20"},{"backlink":"basics/docker-commands-principle.html#fig3.2.21","level":"3.2","list_caption":"Figure: 4.2.2.2.1","alt":"4.2.2.2.1","nro":21,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578331/article/docker/commands/4.2.2.2.1.png","index":21,"caption_template":"图片 - _CAPTION_","label":"4.2.2.2.1","attributes":{},"skip":false,"key":"3.2.21"},{"backlink":"basics/docker-commands-principle.html#fig3.2.22","level":"3.2","list_caption":"Figure: 4.2.2.2.2","alt":"4.2.2.2.2","nro":22,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578332/article/docker/commands/4.2.2.2.2.png","index":22,"caption_template":"图片 - _CAPTION_","label":"4.2.2.2.2","attributes":{},"skip":false,"key":"3.2.22"},{"backlink":"basics/docker-commands-principle.html#fig3.2.23","level":"3.2","list_caption":"Figure: 4.2.2.3.1","alt":"4.2.2.3.1","nro":23,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578332/article/docker/commands/4.2.2.3.1.png","index":23,"caption_template":"图片 - _CAPTION_","label":"4.2.2.3.1","attributes":{},"skip":false,"key":"3.2.23"},{"backlink":"basics/docker-commands-principle.html#fig3.2.24","level":"3.2","list_caption":"Figure: 4.2.3.1","alt":"4.2.3.1","nro":24,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578332/article/docker/commands/4.2.3.1.png","index":24,"caption_template":"图片 - _CAPTION_","label":"4.2.3.1","attributes":{},"skip":false,"key":"3.2.24"},{"backlink":"basics/docker-commands-principle.html#fig3.2.25","level":"3.2","list_caption":"Figure: 4.2.3.2","alt":"4.2.3.2","nro":25,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578332/article/docker/commands/4.2.3.2.png","index":25,"caption_template":"图片 - _CAPTION_","label":"4.2.3.2","attributes":{},"skip":false,"key":"3.2.25"},{"backlink":"basics/docker-commands-principle.html#fig3.2.26","level":"3.2","list_caption":"Figure: 4.2.3.3","alt":"4.2.3.3","nro":26,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578332/article/docker/commands/4.2.3.3.png","index":26,"caption_template":"图片 - _CAPTION_","label":"4.2.3.3","attributes":{},"skip":false,"key":"3.2.26"},{"backlink":"basics/docker-commands-principle.html#fig3.2.27","level":"3.2","list_caption":"Figure: 4.2.3.4","alt":"4.2.3.4","nro":27,"url":"https://res.cloudinary.com/dqxtn0ick/image/upload/v1510578333/article/docker/commands/4.2.3.4.png","index":27,"caption_template":"图片 - _CAPTION_","label":"4.2.3.4","attributes":{},"skip":false,"key":"3.2.27"}]},"title":"Docker 学习笔记","language":"zh-hans","links":{"sidebar":{"胡伟煌的博客":"https://www.huweihuang.com","Kubernetes 学习笔记":"https://www.huweihuang.com/kubernetes-notes/","Golang 学习笔记":"https://www.huweihuang.com/golang-notes/","Linux 学习笔记":"https://www.huweihuang.com/linux-notes/","数据结构学习笔记":"https://www.huweihuang.com/data-structure-notes/","Python 学习笔记":"https://www.huweihuang.com/python-notes/","Blockchain 学习笔记":"https://www.huweihuang.com/blockchain-notes/","Kubernetes 源码分析笔记":"https://www.huweihuang.com/k8s-source-code-analysis/"}},"gitbook":"*","description":"Docker 学习笔记"},"file":{"path":"principle/cgroup/cgroup.md","mtime":"2021-03-10T04:46:30.466Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-03-15T11:30:08.831Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-editlink/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-3-ba/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.16.1/URI.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-disqus/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-donate/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

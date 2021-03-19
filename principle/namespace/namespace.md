@@ -21,91 +21,16 @@ Namespace是内核的一个功能，用来给进程隔离一系列系统资源�
 | unshare() | 将进程移出某个namespace                                      |
 | setns()   | 将进程加入某个namespace                                      |
 
-# 4. Namespace相关命令
 
-## 4.1. unshare
+# 4. namespace细分
 
-让进程进入一个新的namespace。
-
-```bash
-$ unshare --help
-
-用法：
- unshare [options] <program> [<argument>...]
-
-Run a program with some namespaces unshared from the parent.
-
-选项：
- -m, --mount               unshare mounts namespace
- -u, --uts                 unshare UTS namespace (hostname etc)
- -i, --ipc                 unshare System V IPC namespace
- -n, --net                 unshare network namespace
- -p, --pid                 unshare pid namespace
- -U, --user                unshare user namespace
- -f, --fork                fork before launching <program>
-     --mount-proc[=<dir>]  mount proc filesystem first (implies --mount)
- -r, --map-root-user       map current user to root (implies --user)
-     --propagation <slave|shared|private|unchanged>
-                           modify mount propagation in mount namespace
- -s, --setgroups allow|deny  control the setgroups syscall in user namespaces
-
- -h, --help     显示此帮助并退出
- -V, --version  输出版本信息并退出
-
-更多信息请参阅 unshare(1)。
-```
-
-示例：
-
-
-
-## 4.2. nsenter
-
-进入某个namespace下运行某个进程。例如：docker exec -it <container_id> bash。
-
-```bash
-$ nsenter --help
-
-用法：
- nsenter [options] <program> [<argument>...]
-
-Run a program with namespaces of other processes.
-
-选项：
- -t, --target <pid>     要获取名字空间的目标进程
- -m, --mount[=<file>]   enter mount namespace
- -u, --uts[=<file>]     enter UTS namespace (hostname etc)
- -i, --ipc[=<file>]     enter System V IPC namespace
- -n, --net[=<file>]     enter network namespace
- -p, --pid[=<file>]     enter pid namespace
- -U, --user[=<file>]    enter user namespace
- -S, --setuid <uid>     set uid in entered namespace
- -G, --setgid <gid>     set gid in entered namespace
-     --preserve-credentials do not touch uids or gids
- -r, --root[=<dir>]     set the root directory
- -w, --wd[=<dir>]       set the working directory
- -F, --no-fork          执行 <程序> 前不 fork
- -Z, --follow-context   set SELinux context according to --target PID
-
- -h, --help     显示此帮助并退出
- -V, --version  输出版本信息并退出
-
-更多信息请参阅 nsenter(1)。
-```
-
-
-
-# 5. namespace细分
-
-## 5.1. Mount Namespace
+## 4.1. Mount Namespace
 
 Mount Namespace可以用了隔离各个进程的挂载点视图。不同的namespace中文件系统层次不一样，在其中调用mount和umount仅影响当前namespace。
 
 
 
-
-
-## 5.2. Network Namespace
+## 4.2. Network Namespace
 
 Network Namespace用来隔离网络设备，IP地址端口等网络栈。容器内可以绑定自己的端口，在宿主机建立网桥，就可以实现容器之间的通信。
 
@@ -222,11 +147,6 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         TX packets 4  bytes 240 (240.0 B)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
-
-
-
-
-
 
 
 参考：

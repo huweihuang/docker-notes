@@ -16,8 +16,13 @@
 
 ## 核心原理
 
- * [namespace](principle/namespace.md)
- * [cgroup](principle/cgroup.md)
+ * [namespace]()
+    * [namespace](principle/namespace/namespace.md)
+    * [namespace命令](principle/namespace/namespace-cmd.md)
+ * [cgroup]()
+    * [cgroup介绍](principle/cgroup/cgroup.md)
+    * [cgroup命令](principle/cgroup/cgroup-cmd.md)
+    * [cgroup目录](principle/cgroup/cgroup-dir.md)
 
 ## 源码分析
 

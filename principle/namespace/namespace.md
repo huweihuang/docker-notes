@@ -147,11 +147,17 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         TX packets 4  bytes 240 (240.0 B)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
+9、进入现有docker容器的网络命名空间
 
+由于docker默认隐藏了`/var/run/netns`下的命名空间，因此需要做软链接，容器的1号进程的pid下的ns软链到`/var/run/netns`。
+
+```bash
+ln -sf /proc/<container-pid>/ns/net "/var/run/netns/<container-id>"
+ip netns exec <container-id> bash
+```
 
 参考：
 
 - https://lwn.net/Articles/531114/
-
 - https://coolshell.cn/articles/17010.html
 - https://coolshell.cn/articles/17029.html

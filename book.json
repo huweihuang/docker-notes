@@ -29,7 +29,7 @@
         "favicon@^0.0.2",
         "tbfed-pagefooter@^0.0.1",
         "3-ba",
-        "theme-default",
+        "theme-huweihuang",
         "-highlight", "prism", "prism-themes",
         "sitemap-general",
         "ga",
@@ -37,8 +37,9 @@
         "donate"
     ],
     "pluginsConfig": {
-        "theme-default": {
-            "showLevel": true
+        "theme-huweihuang": {
+            "showLevel": true,
+            "googleAdsenseClient": "ca-pub-8205636531078391"
         },
         "github": {
             "url": "https://github.com/huweihuang"

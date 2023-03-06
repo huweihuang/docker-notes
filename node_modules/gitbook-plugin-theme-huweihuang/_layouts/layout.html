@@ -19,7 +19,11 @@
             {% endfor %}
         {% endblock %}
         {% block head %}{% endblock %}
+
+        <!-- https://www.google.com/adsense -->
+        {% if config.pluginsConfig['theme-huweihuang'].googleAdsenseClient %}
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ config.pluginsConfig['theme-huweihuang'].googleAdsenseClient }}" crossorigin="anonymous"></script>
+        {% endif %}
     </head>
     <body>
         {% block body %}{% endblock %}

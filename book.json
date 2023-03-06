@@ -29,17 +29,17 @@
         "favicon@^0.0.2",
         "tbfed-pagefooter@^0.0.1",
         "3-ba",
-        "theme-huweihuang",
+        "theme-default",
         "-highlight", "prism", "prism-themes",
         "sitemap-general",
         "ga",
         "disqus",
-        "donate"
+        "donate",
+        "google-ads"
     ],
     "pluginsConfig": {
-        "theme-huweihuang": {
-            "showLevel": true,
-            "googleAdsenseClient": "ca-pub-8205636531078391"
+        "theme-default": {
+            "showLevel": true
         },
         "github": {
             "url": "https://github.com/huweihuang"
@@ -94,6 +94,13 @@
             "button": "赏",
             "alipayText": "支付宝打赏",
             "wechatText": "微信打赏"
+        },
+        "google-ads": {
+            "ads": [
+                {
+                    "client": "ca-pub-8205636531078391"
+                }
+            ]
         }
     }
 }
